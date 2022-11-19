@@ -40,8 +40,10 @@ async def on_message(message):
             return
 
         elif user_message.lower() == '!report':
+            await message.reply(f'Hi {user_mention}, please use !report to report!')
+            return
 
-            # Global commands
+    # Global commands
     if user_message.lower() == '!anywhere':
         await message.channel.send(f'Anywhere!')
         return
