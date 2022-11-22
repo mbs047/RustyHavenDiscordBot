@@ -4,6 +4,10 @@ load_dotenv()
 import discord, datetime, asyncio, os
 from datetime import datetime
 
+SUPPRT_ROLE_ID = 1044440225088278558
+OPENED_TICKET_CATEGORY_ID=1044611835317461002
+CLOSED_TICKET_CATEGORY_ID=1044611916284317777
+
 
 class Bot(discord.Bot):
     def __init__(self, *args, **kwargs):
@@ -31,9 +35,9 @@ class CreateTicket(discord.ui.View):
         custom_id = 'create_ticket:blurple',
         emoji = '🎫'
     )
-    async def button_callback(self, button, interaction):
+    async def button_callback(self, button, interaction): 
+        category = discord.utils.get(interaction.guild.categories, name='OPENED_TICKETS')       
         try:
-            category = discord.utils.get(interaction.guild.categories, name='OPENED_TICKETS')
             for ch in category.channels:
                 if ch.topic == str(interaction.user.id):
                     return await interaction.response.send_message(f'{interaction.user.mention}! You already have a ticket {ch.mention}!', ephemeral=True, delete_after=10)
@@ -43,7 +47,7 @@ class CreateTicket(discord.ui.View):
         overwrites = {
             interaction.guild.default_role: discord.PermissionOverwrite(read_messages = False),
             interaction.user: discord.PermissionOverwrite(read_messages = True, view_channel = True),
-            interaction.guild.get_role(os.environ.get('SUPPRT_ROLE_ID')): discord.PermissionOverwrite(read_messages = True, view_channel = True),
+            interaction.guild.get_role(SUPPRT_ROLE_ID): discord.PermissionOverwrite(read_messages = True, view_channel = True),
         }
         
         channel = await category.create_text_channel(name=f'{interaction.user.name}-{interaction.user.discriminator}', overwrites=overwrites, topic=f'{interaction.user.id}')
@@ -69,7 +73,7 @@ class TicketSetting(discord.ui.View):
         custom_id = 'ticket_setting:gray'
     )
     async def close_ticket(self, button, interaction):
-        if interaction.channel.category.id == os.environ.get('CLOSED_TICKET_CATEGORY_ID'):
+        if interaction.channel.category.id == CLOSED_TICKET_CATEGORY_ID:
             return await interaction.response.send_message("You can't use this command here", ephemeral=True, delete_after=60)
         
         await interaction.response.send_message('Closing Ticket', ephemeral=True, delete_after=60)
@@ -79,7 +83,7 @@ class TicketSetting(discord.ui.View):
         overwrites = {
             interaction.guild.default_role: discord.PermissionOverwrite(read_messages = False),
             interaction.user: discord.PermissionOverwrite(read_messages = False, view_channel = False),
-            interaction.guild.get_role(os.environ.get('SUPPRT_ROLE_ID')): discord.PermissionOverwrite(read_messages = True, view_channel = True),
+            interaction.guild.get_role(SUPPRT_ROLE_ID): discord.PermissionOverwrite(read_messages = True, view_channel = True),
         }
         await channel.edit(category=category, overwrites=overwrites)
         
@@ -109,7 +113,7 @@ class DeleteTicket(discord.ui.View):
         custom_id = 'ticket_setting:red'
     )
     async def close_ticket(self, button, interaction):
-        if interaction.channel.category.id == os.environ.get('OPENED_TICKET_CATEGORY_ID'):
+        if interaction.channel.category.id == OPENED_TICKET_CATEGORY_ID:
             return await interaction.response.send_message("The ticket must be closed first", ephemeral=True, delete_after=60)
     
         await interaction.response.send_message('Deleting Ticket')
@@ -130,7 +134,7 @@ async def on_message(message):
     if message.author.bot:
         return
     
-    if message.channel.category.id == os.environ.get('OPENED_TICKET_CATEGORY_ID'):
+    if message.channel.category.id == OPENED_TICKET_CATEGORY_ID:
         ticket = await message.guild.fetch_member(int(message.channel.topic))
         with open(f'{ticket.id}.txt', 'a') as file:
             file.write(f'Message from {message.author}: {message.content}\n')
