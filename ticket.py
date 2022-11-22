@@ -1,7 +1,7 @@
+import discord, datetime, asyncio, os
 from dotenv import load_dotenv
 load_dotenv()
-
-import discord, datetime, asyncio, os
+from discord.ext import commands
 from datetime import datetime
 
 SUPPRT_ROLE_ID = 1044440225088278558
@@ -124,7 +124,14 @@ class DeleteTicket(discord.ui.View):
 bot = Bot(activity=discord.Activity(type=discord.ActivityType.watching, name='B Bot'), intents=discord.Intents.all())
 
 
+def is_guild_owner():
+    def predicate(ctx):
+        return ctx.guild is not None and ctx.guild.owner_id == ctx.author.id
+    return commands.check(predicate)
+
+
 @bot.command(guild_ids=[os.environ.get('GUILD_IDS')], name='ping', description='Get Bot Latency')
+@commands.check_any(commands.is_owner(), is_guild_owner())
 async def ping(ctx):
     await ctx.respond(f'**Pong!** \nLatency: {round(bot.latency*1000)}ms', ephemeral=True, delete_after=5)
      
@@ -141,6 +148,7 @@ async def on_message(message):
 
 
 @bot.command(guild_ids=[os.environ.get('GUILD_IDS')], description='Setup ticket widget')
+@commands.check_any(commands.is_owner(), is_guild_owner())
 async def setup_ticket(ctx):
     embed = discord.Embed(
         title = 'Create a ticket!',
@@ -148,5 +156,11 @@ async def setup_ticket(ctx):
     )
     await ctx.send(embed = embed, view = CreateTicket())
 
+
+@bot.command(guild_ids=[os.environ.get('GUILD_IDS')], description='Clear current text channel messages')
+@commands.check_any(commands.is_owner(), is_guild_owner())
+async def clear(ctx, limit = 0):
+    await ctx.channel.purge()
+    await ctx.send('Messages purged successfully!')
 
 bot.run(os.environ.get('TOKEN'))
