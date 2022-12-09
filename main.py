@@ -21,6 +21,8 @@ class LoadCogs():
         print('Running Cogs...')
         
         for cog in COGS:
+            cog = cog.replace(EXTENSIONS_PATH, '')
+
             try:
                 bot.load_extension(f'{COGS_PATH}{cog}')
                 print(f' - "{cog}" Cog Loaded Successfully')
@@ -95,7 +97,7 @@ async def load(ctx, extension):
 
     if extension == 'all':
         if Config.LOAD_COGS_ON_START == 'True':
-            await ctx.send('Running Cogs...')
+            await ctx.send('Loading Cogs...')
             
             for cog in COGS:
                 cog = cog.replace(EXTENSIONS_PATH, '')
@@ -129,6 +131,25 @@ async def unload(ctx, extension):
     if ctx.channel.id != Config.BOT_COMMAND_CHANNEL_ID:
         return
     
+    if extension == 'all':
+        if Config.LOAD_COGS_ON_START == 'True':
+            await ctx.send('Unloading Cogs...')
+            
+            for cog in COGS:
+                cog = cog.replace(EXTENSIONS_PATH, '')
+        
+                try:
+                    bot.unload_extension(f'{COGS_PATH}{cog}')
+                    await ctx.send(f' - "{cog}" Cog Unoaded Successfully')
+                    sleep(1)
+                    
+                except Exception as e:
+                    await ctx.send(f' - "{cog}" Cog Not unloaded: {e}')
+                
+            await ctx.send(f'Cogs task completed Successfully')
+            
+        return
+    
     if exists(f'{EXTENSIONS_PATH}{extension}.py'):
         try:
             bot.unload_extension(f'{COGS_PATH}{extension}')
@@ -144,6 +165,25 @@ async def unload(ctx, extension):
 @has_permissions(administrator=True)
 async def reload(ctx, extension):
     if ctx.channel.id != Config.BOT_COMMAND_CHANNEL_ID:
+        return
+    
+    if extension == 'all':
+        if Config.LOAD_COGS_ON_START == 'True':
+            await ctx.send('Reloading Cogs...')
+            
+            for cog in COGS:
+                cog = cog.rereplace(EXTENSIONS_PATH, '')
+        
+                try:
+                    bot.unload_extension(f'{COGS_PATH}{cog}')
+                    await ctx.send(f' - "{cog}" Cog Reloaded Successfully')
+                    sleep(1)
+                    
+                except Exception as e:
+                    await ctx.send(f' - "{cog}" Cog Not reloaded: {e}')
+                
+            await ctx.send(f'Cogs task completed Successfully')
+            
         return
     
     if exists(f'{EXTENSIONS_PATH}{extension}.py'):
