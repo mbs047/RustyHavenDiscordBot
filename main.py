@@ -96,21 +96,20 @@ async def load(ctx, extension):
         return
 
     if extension == 'all':
-        if Config.LOAD_COGS_ON_START == 'True':
-            await ctx.send('Loading Cogs...')
-            
-            for cog in COGS:
-                cog = cog.replace(EXTENSIONS_PATH, '')
+        await ctx.send('Loading Cogs...')
         
-                try:
-                    bot.load_extension(f'{COGS_PATH}{cog}')
-                    await ctx.send(f' - "{cog}" Cog Loaded Successfully')
-                    
-                except Exception as e:
-                    await ctx.send(f' - "{cog}" Cog Not loaded: {e}')
+        for cog in COGS:
+            cog = cog.replace(EXTENSIONS_PATH, '')
+    
+            try:
+                bot.load_extension(f'{COGS_PATH}{cog}')
+                await ctx.send(f' - "{cog}" Cog Loaded Successfully')
                 
-            await ctx.send(f'Cogs task completed Successfully')
+            except Exception as e:
+                await ctx.send(f' - "{cog}" Cog Not loaded: {e}')
             
+        await ctx.send(f'Cogs task completed Successfully')
+        
         return
 
     if exists(f'{EXTENSIONS_PATH}{extension}.py'):
@@ -131,21 +130,20 @@ async def unload(ctx, extension):
         return
     
     if extension == 'all':
-        if Config.LOAD_COGS_ON_START == 'True':
-            await ctx.send('Unloading Cogs...')
-            
-            for cog in COGS:
-                cog = cog.replace(EXTENSIONS_PATH, '')
+        await ctx.send('Unloading Cogs...')
         
-                try:
-                    bot.unload_extension(f'{COGS_PATH}{cog}')
-                    await ctx.send(f' - "{cog}" Cog Unoaded Successfully')
-                    
-                except Exception as e:
-                    await ctx.send(f' - "{cog}" Cog Not unloaded: {e}')
+        for cog in COGS:
+            cog = cog.replace(EXTENSIONS_PATH, '')
+    
+            try:
+                bot.unload_extension(f'{COGS_PATH}{cog}')
+                await ctx.send(f' - "{cog}" Cog Unoaded Successfully')
                 
-            await ctx.send(f'Cogs task completed Successfully')
+            except Exception as e:
+                await ctx.send(f' - "{cog}" Cog Not unloaded: {e}')
             
+        await ctx.send(f'Cogs task completed Successfully')
+        
         return
     
     if exists(f'{EXTENSIONS_PATH}{extension}.py'):
@@ -166,20 +164,19 @@ async def reload(ctx, extension):
         return
     
     if extension == 'all':
-        if Config.LOAD_COGS_ON_START == 'True':
-            await ctx.send('Reloading Cogs...')
-            
-            for cog in COGS:
-                cog = cog.rereplace(EXTENSIONS_PATH, '')
+        await ctx.send('Reloading Cogs...')
         
-                try:
-                    bot.unload_extension(f'{COGS_PATH}{cog}')
-                    await ctx.send(f' - "{cog}" Cog Reloaded Successfully')
-                    
-                except Exception as e:
-                    await ctx.send(f' - "{cog}" Cog Not reloaded: {e}')
+        for cog in COGS:
+            cog = cog.rereplace(EXTENSIONS_PATH, '')
+    
+            try:
+                bot.unload_extension(f'{COGS_PATH}{cog}')
+                await ctx.send(f' - "{cog}" Cog Reloaded Successfully')
                 
-            await ctx.send(f'Cogs task completed Successfully')
+            except Exception as e:
+                await ctx.send(f' - "{cog}" Cog Not reloaded: {e}')
+            
+        await ctx.send(f'Cogs task completed Successfully')
             
         return
     
