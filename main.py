@@ -21,7 +21,8 @@ class LoadCogs():
         print('Running Cogs...')
         
         for cog in COGS:
-            cog = cog.replace(EXTENSIONS_PATH, '')
+            if EXTENSIONS_PATH in cog:
+                cog = cog.replace(EXTENSIONS_PATH, '')
 
             try:
                 bot.load_extension(f'{COGS_PATH}{cog}')
@@ -99,7 +100,8 @@ async def load(ctx, extension):
         await ctx.send('Loading Cogs...')
         
         for cog in COGS:
-            cog = cog.replace(EXTENSIONS_PATH, '')
+            if EXTENSIONS_PATH in cog:
+                cog = cog.replace(EXTENSIONS_PATH, '')
     
             try:
                 bot.load_extension(f'{COGS_PATH}{cog}')
@@ -133,7 +135,8 @@ async def unload(ctx, extension):
         await ctx.send('Unloading Cogs...')
         
         for cog in COGS:
-            cog = cog.replace(EXTENSIONS_PATH, '')
+            if EXTENSIONS_PATH in cog:
+                cog = cog.replace(EXTENSIONS_PATH, '')
     
             try:
                 bot.unload_extension(f'{COGS_PATH}{cog}')
@@ -167,7 +170,8 @@ async def reload(ctx, extension):
         await ctx.send('Reloading Cogs...')
         
         for cog in COGS:
-            cog = cog.rereplace(EXTENSIONS_PATH, '')
+            if EXTENSIONS_PATH in cog:
+                cog = cog.replace(EXTENSIONS_PATH, '')
     
             try:
                 bot.unload_extension(f'{COGS_PATH}{cog}')
