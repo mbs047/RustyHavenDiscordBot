@@ -105,7 +105,6 @@ async def load(ctx, extension):
                 try:
                     bot.load_extension(f'{COGS_PATH}{cog}')
                     await ctx.send(f' - "{cog}" Cog Loaded Successfully')
-                    sleep(1)
                     
                 except Exception as e:
                     await ctx.send(f' - "{cog}" Cog Not loaded: {e}')
@@ -141,7 +140,6 @@ async def unload(ctx, extension):
                 try:
                     bot.unload_extension(f'{COGS_PATH}{cog}')
                     await ctx.send(f' - "{cog}" Cog Unoaded Successfully')
-                    sleep(1)
                     
                 except Exception as e:
                     await ctx.send(f' - "{cog}" Cog Not unloaded: {e}')
@@ -177,7 +175,6 @@ async def reload(ctx, extension):
                 try:
                     bot.unload_extension(f'{COGS_PATH}{cog}')
                     await ctx.send(f' - "{cog}" Cog Reloaded Successfully')
-                    sleep(1)
                     
                 except Exception as e:
                     await ctx.send(f' - "{cog}" Cog Not reloaded: {e}')
