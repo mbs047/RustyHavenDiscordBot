@@ -93,6 +93,9 @@ async def load(ctx, extension):
     if ctx.channel.id != Config.BOT_COMMAND_CHANNEL_ID:
         return
 
+    if extension == 'all':
+        return LoadCogs()
+
     if exists(f'{EXTENSIONS_PATH}{extension}.py'):
         try:
             bot.load_extension(f'{COGS_PATH}{extension}')
