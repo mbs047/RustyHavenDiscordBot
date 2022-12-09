@@ -26,8 +26,8 @@ class JoinGiveAway(View):
         
         role = utils.get(interaction.guild.roles, id=Config.SUPPRT_ROLE_ID)
 
-        if role in interaction.user.roles:
-            return await interaction.response.send_message('Staff not allowed to enter', ephemeral=True, delete_after=10)
+        # if role in interaction.user.roles:
+        #     return await interaction.response.send_message('Staff not allowed to enter', ephemeral=True, delete_after=10)
                 
         if interaction.user not in USERS_REGISTERED:
             USERS_REGISTERED.append(interaction.user)
