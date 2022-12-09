@@ -17,6 +17,10 @@ bot = BotBase(command_prefix=Config.PREFIX, intents=Intents.all())
 
 
 class LoadCogs():
+    async def send_data(data):
+        return data
+    
+    data = []
     if Config.LOAD_COGS_ON_START == 'True':
         print('Running Cogs...')
         
@@ -24,12 +28,18 @@ class LoadCogs():
             try:
                 bot.load_extension(f'{COGS_PATH}{cog}')
                 print(f' - "{cog}" Cog Loaded Successfully')
-                
+                data.append(f' - "{cog}" Cog Loaded Successfully')
+
             except Exception as e:
                 print(f' - "{cog}" Cog Not loaded: {e}')
+                data.append(f' - "{cog}" Cog Not loaded: {e}')
             
         print(f'Cogs Loaded Successfully')
-   
+        
+    send_data(data)
+        
+    
+
 
 
 async def status_update():
@@ -94,7 +104,10 @@ async def load(ctx, extension):
         return
 
     if extension == 'all':
-        return LoadCogs()
+        data = LoadCogs()
+        for cog in data:
+            await ctx.send(cog)
+        return
 
     if exists(f'{EXTENSIONS_PATH}{extension}.py'):
         try:
