@@ -12,6 +12,10 @@ class Test(Cog):
         self.bot = bot
         self.log_channel = self.bot.get_channel(Config.BOT_LOG_CHANNEL_ID)
 
+
+    @command(name='test')
+    async def test(self, ctx):
+        await ctx.send('This is a test.')
         
     async def mute_members(self, message, targets, hours, reason, mute_role):
         unmutes = []
