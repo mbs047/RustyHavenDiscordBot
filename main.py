@@ -174,7 +174,7 @@ async def reload(ctx, extension):
                 cog = cog.replace(EXTENSIONS_PATH, '')
     
             try:
-                bot.unload_extension(f'{COGS_PATH}{cog}')
+                bot.reload_extension(f'{COGS_PATH}{cog}')
                 await ctx.send(f' - "{cog}" Cog Reloaded Successfully')
                 
             except Exception as e:
