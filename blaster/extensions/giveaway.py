@@ -209,8 +209,8 @@ class Giveaway(Cog):
             inline=False
         )
         
-        await channel.send("@everyone Giveaway Live.", allowed_mentions=AllowedMentions(everyone = True), delete_after=SETUP_TIMEOUT)
-        await channel.send(embed=embed, view=JoinGiveAway(), delete_after=SETUP_TIMEOUT)
+        await channel.send("@everyone Giveaway Live.", allowed_mentions=AllowedMentions(everyone = True), delete_after=60*60*24)
+        await channel.send(embed=embed, view=JoinGiveAway(), delete_after=60*60*24)
         await asyncio.sleep(convert(answers[1]))
         
         for winnerDraw in range (int(answers[2])):
