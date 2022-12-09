@@ -99,9 +99,7 @@ async def load(ctx, extension):
             
             for cog in COGS:
                 try:
-                    if EXTENSIONS_PATH in cog:
-                        cog = cog.replace({EXTENSIONS_PATH}, '')
-                        
+                    await ctx.send(f'cog is: {cog}')
                     bot.load_extension(f'{COGS_PATH}{cog}')
                     await ctx.send(f' - "{cog}" Cog Loaded Successfully')
                     sleep(1)
