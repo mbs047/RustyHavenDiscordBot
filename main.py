@@ -22,7 +22,7 @@ class LoadCogs():
         
         for cog in COGS:
             try:
-                bot.load_extension(f'{COGS_PATH}{cog}')
+                bot.load_extension(f'{COGS_PATH}{cog.replace(EXTENSIONS_PATH, "")}')
                 print(f' - "{cog}" Cog Loaded Successfully')
 
             except Exception as e:
