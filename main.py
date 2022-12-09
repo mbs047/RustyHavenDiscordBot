@@ -10,7 +10,7 @@ from blaster import Config
 from asyncio import sleep
 
 COGS_PATH = 'blaster.extensions.'
-EXTENSIONS_PATH = './blaster/extensions/'
+EXTENSIONS_PATH = 'blaster/extensions/'
 COGS = [path.split("\\")[-1][:-3] for path in glob(f"{EXTENSIONS_PATH}*.py")]
 
 bot = BotBase(command_prefix=Config.PREFIX, intents=Intents.all())
@@ -101,11 +101,12 @@ async def load(ctx, extension):
                 try:
                     bot.load_extension(f'{COGS_PATH}{cog}')
                     await ctx.send(f' - "{cog}" Cog Loaded Successfully')
-
+                    sleep(1)
+                    
                 except Exception as e:
                     await ctx.send(f' - "{cog}" Cog Not loaded: {e}')
                 
-            await ctx.send(f'Cogs Loaded Successfully')
+            await ctx.send(f'Cogs task completed Successfully')
             
         return
 
