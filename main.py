@@ -17,7 +17,7 @@ bot = BotBase(command_prefix=Config.PREFIX, intents=Intents.all())
 
 
 class LoadCogs():
-    async def send_data(data):
+    def send_data(data):
         return data
     
     data = []
@@ -65,7 +65,7 @@ async def status_update():
 
 @bot.event
 async def on_ready():
-    LoadCogs()
+    await LoadCogs()
     print('Bot is up and ready!')
 
 
@@ -104,7 +104,7 @@ async def load(ctx, extension):
         return
 
     if extension == 'all':
-        data = LoadCogs()
+        data = await LoadCogs()
         for cog in data:
             await ctx.send(cog)
         return
