@@ -22,7 +22,7 @@ class LoadCogs():
         
         for cog in COGS:
             try:
-                bot.load_extension(f'{COGS_PATH}{cog.replace(EXTENSIONS_PATH, "")}')
+                bot.load_extension(f'{COGS_PATH}{cog}')
                 print(f' - "{cog}" Cog Loaded Successfully')
 
             except Exception as e:
@@ -99,7 +99,7 @@ async def load(ctx, extension):
             
             for cog in COGS:
                 try:
-                    await ctx.send(f'cog is: {cog.translate(None, EXTENSIONS_PATH)}')
+                    await ctx.send(f'cog is: {cog.replace(EXTENSIONS_PATH, "")}')
                     bot.load_extension(f'{COGS_PATH}{cog}')
                     await ctx.send(f' - "{cog}" Cog Loaded Successfully')
                     sleep(1)
