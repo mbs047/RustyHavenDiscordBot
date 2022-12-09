@@ -129,10 +129,10 @@ class Giveaway(Cog):
 
         for index, question in enumerate(questions):
             if index == 0:
-                questionOut = await ctx.send(embed=question, delete_after=SETUP_TIMEOUT)
+                questionOut = await ctx.send(embed=question)
             
             else:
-                await questionOut.edit(embed=question, delete_after=SETUP_TIMEOUT)
+                await questionOut.edit(embed=question)
 
             try:
                 msg = await self.bot.wait_for('message', timeout=SETUP_TIMEOUT, check=check)
@@ -149,6 +149,8 @@ class Giveaway(Cog):
             else:
                 answers.append(msg.content)
                 await msg.delete()
+
+        questionOut.delete()
 
         try:
             c_id = int(answers[0][2: -1])
