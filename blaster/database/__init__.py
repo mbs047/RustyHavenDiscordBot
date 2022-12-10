@@ -1,3 +1,3 @@
 from blaster.database import database
 
-database.build()
+# database.build_connection()

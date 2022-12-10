@@ -48,6 +48,7 @@ async def status_update():
 
                 else:
                     message = 'Server Offline'
+            
         except:
             message = 'Server Offline'
 

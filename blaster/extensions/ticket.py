@@ -4,6 +4,7 @@ from discord.ui import View, button
 from discord.ext.commands import command, Cog, has_permissions
 from datetime import datetime
 from blaster import Config
+from blaster.database import database
 
 
 class Ticket(Cog):
@@ -17,6 +18,7 @@ class Ticket(Cog):
         if not self.persistent_views_added:
             self.bot.add_view(CreateTicket())
             self.bot.add_view(TicketSetting())
+            self.bot.add_view(ConfirmClosingTicket())
             self.bot.add_view(DeleteTicket())
             self.persistent_views_added = True
             print(' ---> Ticket persistent views added')
@@ -50,8 +52,24 @@ class Ticket(Cog):
         try:
             if channel.category.id == Config.OPENED_TICKET_CATEGORY_ID:
                 ticket = await message.guild.fetch_member(int(channel.topic))
-                with open(f'{ticket.id}.txt', 'a') as file:
-                    file.write(f'Message from {message.author}: {message.content}\n')
+                
+                messagesTypes = ['attachments', 'content']
+                
+                for messagesType in messagesTypes:
+                    if messagesType == 'attachments' and message.attachments:
+                        content = message.attachments[0].url
+
+                    if messagesType == 'content' and message.content:
+                        content = message.content
+                        
+                    response = database.execute(prefix='create/ticket/message', data={
+                        'ticketId': message.channel.name, 
+                        'senderId': message.author.id, 
+                        'content': content
+                    })
+                    
+                    with open(f'{ticket.id}.txt', 'a') as file:
+                        file.write(f'Message from {message.author}: {content}\n')
         except:
             print('No Ticket Channels Found')
             
@@ -65,7 +83,7 @@ class CreateTicket(View):
     @button(
         label = 'Create Ticket', 
         style = ButtonStyle.primary, 
-        custom_id = 'create_ticket:blurple',
+        custom_id = 'CreateTicket:blurple',
         emoji = '🎫'
     )
     async def button_callback(self, button, interaction):
@@ -89,9 +107,13 @@ class CreateTicket(View):
             timestamp= datetime.utcnow(),
             color= 0x2ECC71
         )
+    
         await asyncio.sleep(2)
         await interaction.response.send_message(f'{channel.mention} click to go to ticket', ephemeral=True, delete_after=60)
         await channel.send(embed=embed, view = TicketSetting())
+        
+        response = database.execute(prefix='create/ticket', data={'member_id': interaction.user.id, 'status': 1})
+        await channel.edit(name=response['channel_name'])
 
 
 
