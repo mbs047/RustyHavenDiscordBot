@@ -1,1 +1,5 @@
 .env
+blaster/__pycache__/*
+blaster/database/__pycache__/*
+blaster/extensions/__pycache__/*
+blaster/__pycache__/*
