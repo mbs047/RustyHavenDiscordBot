@@ -1,5 +1,13 @@
-.env
-blaster/__pycache__/*
-blaster/database/__pycache__/*
-blaster/extensions/__pycache__/*
-blaster/__pycache__/*
+# Main Bot
+MainBot/.env
+MainBot/blaster/__pycache__/*
+MainBot/blaster/database/__pycache__/*
+MainBot/blaster/extensions/__pycache__/*
+MainBot/blaster/__pycache__/*
+
+# Server Status Bot
+ServerStatusBot/.env
+ServerStatusBot/blaster/__pycache__/*
+ServerStatusBot/blaster/database/__pycache__/*
+ServerStatusBot/blaster/extensions/__pycache__/*
+ServerStatusBot/blaster/__pycache__/*
