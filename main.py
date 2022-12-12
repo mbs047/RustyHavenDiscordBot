@@ -37,7 +37,7 @@ class LoadCogs():
 
 async def status_update():
     await bot.change_presence(activity=Activity(type=ActivityType.watching, name='Discord'))
-        
+         
 
 @bot.event
 async def on_ready():
@@ -177,3 +177,4 @@ async def reload(ctx, extension):
 
 bot.loop.create_task(status_update()) 
 bot.run(Config.TOKEN)
+
