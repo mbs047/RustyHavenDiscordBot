@@ -34,14 +34,10 @@ class LoadCogs():
         print(f'Cogs Loaded Successfully')
 
 
-
-async def status_update():
-    await bot.change_presence(activity=Activity(type=ActivityType.watching, name='Discord'))
-         
-
 @bot.event
 async def on_ready():
     LoadCogs()
+    await bot.change_presence(activity=Activity(type=ActivityType.watching, name='Discord'))
     print('Bot is up and ready!')
 
 
@@ -175,6 +171,5 @@ async def reload(ctx, extension):
         await ctx.send(f'Cog not found!')
 
 
-bot.loop.create_task(status_update()) 
 bot.run(Config.TOKEN)
 

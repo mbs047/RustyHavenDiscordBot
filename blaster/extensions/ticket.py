@@ -62,11 +62,11 @@ class Ticket(Cog):
                     if messagesType == 'content' and message.content:
                         content = message.content
                         
-                    response = database.execute(prefix='create/ticket/message', data={
-                        'ticketId': message.channel.name, 
-                        'senderId': message.author.id, 
-                        'content': content
-                    })
+                    # response = database.execute(prefix='create/ticket/message', data={
+                    #     'ticketId': message.channel.name, 
+                    #     'senderId': message.author.id, 
+                    #     'content': content
+                    # })
                     
                     with open(f'{ticket.id}.txt', 'a') as file:
                         file.write(f'Message from {message.author}: {content}\n')
@@ -112,8 +112,8 @@ class CreateTicket(View):
         await interaction.response.send_message(f'{channel.mention} click to go to ticket', ephemeral=True, delete_after=60)
         await channel.send(embed=embed, view = TicketSetting())
         
-        response = database.execute(prefix='create/ticket', data={'member_id': interaction.user.id, 'status': 1})
-        await channel.edit(name=response['channel_name'])
+        # response = database.execute(prefix='create/ticket', data={'member_id': interaction.user.id, 'status': 1})
+        # await channel.edit(name=response['channel_name'])
 
 
 
