@@ -16,7 +16,7 @@ async def status_update():
             async with request("GET", fact_url, headers={}) as response:
                 if response.status == 200:
                     data = await response.json(content_type='text/html')
-                    message = f"{data['is_online']} / {data['maxplayers']} Online"
+                    message = f"{data['players']} / {data['maxplayers']} Online"
 
                 else:
                     message = 'Server Offline'
