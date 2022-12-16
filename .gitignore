@@ -1,5 +1,5 @@
 # Main Bot
-MainBot/.env
+# MainBot/.env
 MainBot/blaster/__pycache__/*
 MainBot/blaster/database/__pycache__/*
 MainBot/blaster/extensions/__pycache__/*
